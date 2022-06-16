@@ -14,19 +14,19 @@ import java.util.stream.IntStream;
 @Component
 public class StubDataService {
 
-    private  static final List<Trade> STUB_TRADES = IntStream.range(1,20)
+    private static final List<Trade> STUB_TRADES = IntStream.range(1, 20)
         .boxed()
         .map(index -> {
             if (index % 2 == 0) {
-                return tradeBuilder("Cash").build();
+                return tradeBuilder("Cash", "CAD_trade_" + index).build();
             } else {
-                return tradeBuilder("Security").build();
+                return tradeBuilder("Security", "RBC_share_" + index).build();
             }
         }).collect(Collectors.toList());
 
-    private  static final List<DeliveryInstruction> STUB_DELIVERY_INSTRUCTIONS = IntStream.range(1,20)
+    private static final List<DeliveryInstruction> STUB_DELIVERY_INSTRUCTIONS = IntStream.range(1, 20)
         .boxed()
-        .map(index -> deliveryInstructionBuilder("name_"+index, "address_"+index)
+        .map(index -> deliveryInstructionBuilder("name_" + index, "address_" + index)
             .build()).collect(Collectors.toList());
 
     public List<Trade> getAllTrades() {
@@ -37,9 +37,10 @@ public class StubDataService {
         return STUB_DELIVERY_INSTRUCTIONS;
     }
 
-    private static Trade.TradeBuilder tradeBuilder(String type){
+    private static Trade.TradeBuilder tradeBuilder(String type, String description) {
         return Trade.builder()
             .id(UUID.randomUUID())
+            .description(description)
             .price(BigDecimal.TEN)
             .quantity(BigDecimal.TEN)
             .settlementDate(LocalDateTime.now())
@@ -49,14 +50,13 @@ public class StubDataService {
     }
 
     private static DeliveryInstruction.DeliveryInstructionBuilder deliveryInstructionBuilder(String name,
-                                                                                             String address){
+                                                                                             String address) {
         return DeliveryInstruction.builder()
             .id(UUID.randomUUID())
             .name(name)
             .address(address)
             .city("Mtl")
             .country("CA");
-
     }
 
 }

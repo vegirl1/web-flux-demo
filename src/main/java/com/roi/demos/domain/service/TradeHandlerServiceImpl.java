@@ -26,9 +26,9 @@ public class TradeHandlerServiceImpl implements TradeHandlerService {
         var trade = stubDataService.getAllTrades().stream()
             .filter(trade1 -> StringUtils.equals(trade1.getId().toString(), id))
             .findFirst();
-        if (trade.isPresent()){
+        if (trade.isPresent()) {
             return Mono.just(trade.get());
-        }else{
+        } else {
             return Mono.empty();
         }
     }
@@ -46,17 +46,30 @@ public class TradeHandlerServiceImpl implements TradeHandlerService {
     }
 
     @Override
-    public void saveTrade(Trade trade) {
-        log.warn("Not supported yet");
+    public void saveTrade(Mono<Trade> trade) {
+        log.warn("Save Trade -> not supported yet");
     }
 
     @Override
     public Flux<ServerSentEvent> getTradeStream() {
-        return Flux.fromStream( stubDataService.getAllTrades().stream()
+        return Flux.fromStream(stubDataService.getAllTrades().stream()
             .map(trade -> ServerSentEvent.builder()
                 .id(UUID.randomUUID().toString())
                 .event("Trade SSE - " + LocalTime.now().toString())
                 .data(trade)
                 .build()));
+    }
+
+    @Override
+    public Mono<Trade> findTradeByDescription(String description) {
+        log.info("Input arg: " + description);
+        var trade = stubDataService.getAllTrades().stream()
+            .filter(trade1 -> StringUtils.containsAnyIgnoreCase(trade1.getDescription().toString(), description))
+            .findFirst();
+        if (trade.isPresent()) {
+            return Mono.just(trade.get());
+        } else {
+            return Mono.empty();
+        }
     }
 }
