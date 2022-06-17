@@ -13,7 +13,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 @Configuration
 public class FunctionalRouteConfig {
 
-    @Bean
+    @Bean("diRouter")
     public RouterFunction<ServerResponse> buildFunctionalRoutes(DeliveryInstructionEventHandler diHandler) {
         return RouterFunctions.route()
             .path("di",

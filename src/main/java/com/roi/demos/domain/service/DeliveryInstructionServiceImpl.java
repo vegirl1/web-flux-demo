@@ -1,6 +1,7 @@
 package com.roi.demos.domain.service;
 
 import com.roi.demos.domain.entity.DeliveryInstruction;
+import com.roi.demos.domain.repository.DeliveryInstructionRepository;
 import com.roi.demos.domain.repository.StubDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -16,9 +17,11 @@ import java.util.stream.Collectors;
 public class DeliveryInstructionServiceImpl implements DeliveryInstructionService {
 
     private final List<DeliveryInstruction> deliveryInstructions;
+    private final DeliveryInstructionRepository deliveryInstructionRepository;
     private final StubDataService stubDataService;
 
-    public DeliveryInstructionServiceImpl(StubDataService stubDataService) {
+    public DeliveryInstructionServiceImpl(DeliveryInstructionRepository deliveryInstructionRepository, StubDataService stubDataService) {
+        this.deliveryInstructionRepository = deliveryInstructionRepository;
         this.stubDataService = stubDataService;
         this.deliveryInstructions = stubDataService.getAllDeliveryInstructions();
     }
@@ -45,7 +48,7 @@ public class DeliveryInstructionServiceImpl implements DeliveryInstructionServic
 
     @Override
     public Flux<DeliveryInstruction> findAllDeliveryInstructions() {
-        return Flux.fromIterable(deliveryInstructions);
+        return deliveryInstructionRepository.findAll();
     }
 
     @Override

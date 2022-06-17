@@ -1,0 +1,19 @@
+http://localhost:8080/trade/findByTradeType?tradeType=Cash
+
+http://localhost:8080/trade/tradeTxtStream
+
+http://localhost:8080/trade/findTradeByDescription/ade_4
+
+http://localhost:8080/di/test
+
+http://localhost:8080/di/byCity/mtl
+
+POST
+http://localhost:8080/di/addDi
+{
+    "id": "2c6b7839-b11b-4489-a321-3e414571f623",
+    "name": "TestAddNewDI",
+    "address": "address_1",
+    "city": "Mtl",
+    "country": "CA"
+}

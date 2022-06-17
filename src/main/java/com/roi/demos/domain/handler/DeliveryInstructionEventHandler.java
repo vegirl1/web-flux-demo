@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
@@ -21,7 +20,7 @@ public class DeliveryInstructionEventHandler {
     private final DeliveryInstructionService diService;
 
     public Mono<ServerResponse> getTestEvent(ServerRequest request) {
-        return ok().body(Flux.just("DI request received"), String.class);
+        return ok().body(diService.findAllDeliveryInstructions(), DeliveryInstruction.class);
     }
 
     public Mono<ServerResponse> getDeliveryInstructionByCity(ServerRequest request) {

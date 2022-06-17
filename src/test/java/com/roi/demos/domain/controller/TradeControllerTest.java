@@ -11,6 +11,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.scheduler.Schedulers;
 
 @SpringBootTest
 class TradeControllerTest {
@@ -30,14 +31,6 @@ class TradeControllerTest {
     }
 
     @Test
-    void findByTradeId() {
-    }
-
-    @Test
-    void findByTradeType() {
-    }
-
-    @Test
     void testGetTradeTxtStream() {
         var expectedType = new ParameterizedTypeReference<ServerSentEvent<Trade>>() {
         };
@@ -48,6 +41,8 @@ class TradeControllerTest {
             .expectStatus().is2xxSuccessful()
             .returnResult(expectedType)
             .getResponseBody()
+            .parallel(4)
+            .runOn(Schedulers.parallel())
             .subscribe(System.out::println);
     }
 }

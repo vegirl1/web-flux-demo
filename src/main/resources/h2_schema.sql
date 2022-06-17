@@ -1,0 +1,3 @@
+DROP TABLE deliveryInstruction IF EXISTS;
+
+CREATE TABLE IF NOT EXISTS deliveryInstruction (id uuid PRIMARY KEY , name VARCHAR(100) NOT NULL , address VARCHAR(100) NOT NULL, city VARCHAR(100) NOT NULL, country VARCHAR(100) NOT NULL);
